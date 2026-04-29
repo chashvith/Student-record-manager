@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.Entity.StudentEntity;
-import com.example.demo.Repository.StudentRepository;
+import com.example.demo.service.StudentService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,29 +10,29 @@ import java.util.List;
 @RequestMapping("/students")
 public class StudentController {
 
-    private final StudentRepository repo;
+    private final StudentService service;
 
-    public StudentController(StudentRepository repo) {
-        this.repo = repo;
+    public StudentController(StudentService service) {
+        this.service = service;
     }
 
     @GetMapping
     public List<StudentEntity> getAll() {
-        return repo.findAll();
+        return service.getAllStudents();
     }
 
     @PostMapping
     public StudentEntity add(@RequestBody StudentEntity s) {
-        return repo.save(s);
+        return service.addStudent(s);
     }
 
     @GetMapping("/{id}")
     public StudentEntity getById(@PathVariable String id) {
-        return repo.findById(id).orElse(null);
+        return service.getStudentById(id);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
-        repo.deleteById(id);
+        service.deleteStudent(id);
     }
 }
